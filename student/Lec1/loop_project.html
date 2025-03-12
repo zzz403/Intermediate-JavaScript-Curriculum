@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiplication Table Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            max-width: 300px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            width: 80%;
+            padding: 8px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #output {
+            margin-top: 15px;
+            font-size: 18px;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Multiplication Table Generator</h2>
+        <input type="number" id="number" placeholder="Enter a number">
+        <br>
+        <button id="generate">Generate Table</button>
+        <h3 id="output">Output will appear here</h3>
+    </div>
+    <script src="loop_project.js"></script>
+</body>
+</html>
