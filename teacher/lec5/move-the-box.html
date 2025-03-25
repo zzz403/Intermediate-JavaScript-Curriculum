@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Move the Box Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+
+    #gameArea {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      margin: 0 auto;
+      border: 2px solid black;
+      background-color: #f9f9f9;
+    }
+
+    #player {
+      width: 40px;
+      height: 40px;
+      background-color: red;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transition: all 0.05s;
+    }
+
+    #moveCounter {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Move the Box Game</h1>
+  <div id="gameArea">
+    <div id="player"></div>
+  </div>
+  <p id="moveCounter">Moves: 0</p>
+
+  <script>
+    const box = document.getElementById("player");
+    const counter = document.getElementById("moveCounter");
+
+    let x = 0;
+    let y = 0;
+    let moveCount = 0;
+
+    const step = 10;
+    const areaSize = 400;
+    const boxSize = 40;
+
+    document.addEventListener("keydown", function(e) {
+      // Move depending on key
+      if (e.key === "ArrowRight" || e.key === "d") x += step;
+      if (e.key === "ArrowLeft"  || e.key === "a") x -= step;
+      if (e.key === "ArrowUp"    || e.key === "w") y -= step;
+      if (e.key === "ArrowDown"  || e.key === "s") y += step;
+
+      // Prevent moving out of bounds
+      if (x < 0) x = 0;
+      if (x > areaSize - boxSize) x = areaSize - boxSize;
+      if (y < 0) y = 0;
+      if (y > areaSize - boxSize) y = areaSize - boxSize;
+
+      // Move the box
+      box.style.left = x + "px";
+      box.style.top = y + "px";
+
+      // Update move count
+      moveCount++;
+      counter.textContent = "Moves: " + moveCount;
+    });
+  </script>
+
+</body>
+</html>
