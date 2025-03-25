@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reaction Timer Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    #box {
+      width: 100px;
+      height: 100px;
+      background-color: tomato;
+      display: none;
+      margin: 20px auto;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #startBtn {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+
+    #message {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Reaction Timer Game</h1>
+  <button id="startBtn">Start</button>
+  <div id="box"></div>
+  <p id="message">Click "Start" to begin!</p>
+
+  <script>
+    const startBtn = document.getElementById("startBtn");
+    const box = document.getElementById("box");
+    const message = document.getElementById("message");
+
+    let timeoutId;
+    let startTime;
+    let boxVisible = false;
+
+    startBtn.addEventListener("click", () => {
+      // Reset everything
+      message.textContent = "Wait for the box to appear...";
+      box.style.display = "none";
+      boxVisible = false;
+
+      const randomDelay = Math.floor(Math.random() * 3000) + 2000; // 2000–5000ms
+
+      timeoutId = setTimeout(() => {
+        box.style.display = "block";
+        startTime = Date.now();
+        boxVisible = true;
+      }, randomDelay);
+    });
+
+    box.addEventListener("click", () => {
+      if (!boxVisible) {
+        message.textContent = "Too soon! Wait for the box.";
+        clearTimeout(timeoutId);
+        box.style.display = "none";
+        return;
+      }
+
+      const reactionTime = Date.now() - startTime;
+      message.textContent = `🎉 Your reaction time: ${reactionTime} ms`;
+      box.style.display = "none";
+      boxVisible = false;
+    });
+  </script>
+
+</body>
+</html>
