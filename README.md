@@ -23,8 +23,6 @@ This project-based course is designed to help students strengthen their JavaScri
 └── README.md                     # This file
 ```
 
----
-
 ## For Teachers
 
 - **Slides & lesson outlines** are in `Lecture Notes/`
@@ -33,7 +31,6 @@ This project-based course is designed to help students strengthen their JavaScri
   - Step-by-step teaching versions
 - Use `dodge-final-demo.html` as an in-class demo or reference
 
----
 
 ## For Students
 
@@ -41,7 +38,6 @@ This project-based course is designed to help students strengthen their JavaScri
 - Project instructions are in `assignment handout/`
 - Run HTML files directly in a browser — no server setup needed
 
----
 
 ## Final Project: Dodge the Block Game
 
@@ -55,14 +51,12 @@ By the end, students will:
 - Use timers, events, DOM APIs, and storage
 - Practice modular design via multi-view layout
 
----
 
 ## Prerequisites
 
 - Basic HTML + CSS
 - JavaScript fundamentals (functions, arrays, conditionals, events)
 
----
 
 ## Teaching Tips
 
@@ -70,7 +64,6 @@ By the end, students will:
 - Encourage creativity (themes, sound, difficulty levels)
 - Celebrate final projects with a leaderboard showcase!
 
----
 
 Feedback or suggestions? Fork this repo and make it yours.
 
