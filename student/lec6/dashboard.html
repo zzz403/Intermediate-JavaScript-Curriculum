@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Personal Dashboard (Start Code)</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+
+    #nav {
+      margin-bottom: 20px;
+    }
+
+    button {
+      margin-right: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+
+    .view {
+      display: none;
+      padding: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .active {
+      display: block;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧭 My Personal Dashboard</h1>
+
+  <div id="nav">
+    <button onclick="showView('home')">Home</button>
+    <button onclick="showView('todo')">Todo</button>
+    <button onclick="showView('fun')">Fun Fact</button>
+  </div>
+
+  <!-- Views -->
+  <div id="home" class="view active">
+    <h2>🏠 Welcome!</h2>
+    <p>This is your personal dashboard. Use the buttons above to navigate.</p>
+  </div>
+
+  <div id="todo" class="view">
+    <h2>📝 Todo List</h2>
+    <input type="text" id="todoInput" placeholder="Enter a task" />
+    <button onclick="addTodo()">Add</button>
+    <ul id="todoList"></ul>
+  </div>
+
+  <div id="fun" class="view">
+    <h2>🎉 Random Fun Fact</h2>
+    <p id="funFactText">Click the button above to get a fun fact!</p>
+  </div>
+
+  <script>
+    // 👉 TODOs for students:
+
+    // ✅ Step 1: Implement showView(viewId)
+    //    - Hide all views
+    //    - Show only the view matching the ID
+
+    // ✅ Step 2: In "todo" view:
+    //    - Add event to save new todo
+    //    - Store todos in localStorage
+    //    - Display todo list below input
+
+    // ✅ Step 3: In "fun" view:
+    //    - Store 3–5 fun facts in an array
+    //    - Display a random one when view is shown
+
+    // ✅ (Bonus): Add delete buttons, transitions, or settings
+  </script>
+
+</body>
+</html>

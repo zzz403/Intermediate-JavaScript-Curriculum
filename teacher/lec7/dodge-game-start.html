@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dodge the Block - Starter</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+    }
+
+    #gameArea {
+      position: relative;
+      width: 400px;
+      height: 600px;
+      border: 3px solid #333;
+      margin: 20px auto;
+      background-color: #fff;
+      overflow: hidden;
+    }
+
+    #player {
+      width: 40px;
+      height: 40px;
+      background-color: red;
+      position: absolute;
+      bottom: 10px;
+      left: 180px;
+    }
+
+    .block {
+      width: 40px;
+      height: 40px;
+      background-color: black;
+      position: absolute;
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Dodge the Block</h1>
+  <p>Use ← → or A/D keys to move left and right!</p>
+
+  <div id="gameArea">
+    <div id="player"></div>
+  </div>
+
+  <script>
+    const gameArea = document.getElementById("gameArea");
+    const player = document.getElementById("player");
+
+    let playerX = 180; // initial position
+    const moveSpeed = 20;
+
+    // ✅ Step 1: Move the player
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft" || e.key === "a") {
+        playerX -= moveSpeed;
+        if (playerX < 0) playerX = 0;
+      }
+      if (e.key === "ArrowRight" || e.key === "d") {
+        playerX += moveSpeed;
+        if (playerX > 360) playerX = 360;
+      }
+      player.style.left = playerX + "px";
+    });
+
+    // ✅ Step 2: Generate falling blocks
+    function createBlock() {
+      const block = document.createElement("div");
+      block.classList.add("block");
+      block.style.left = Math.floor(Math.random() * 10) * 40 + "px"; // align to grid
+      gameArea.appendChild(block);
+
+      let top = 0;
+      const fallSpeed = 5;
+      const fallInterval = setInterval(() => {
+        top += fallSpeed;
+        block.style.top = top + "px";
+
+        // TODO: Add collision detection here!
+
+        // Remove block if it falls out of bounds
+        if (top > 600) {
+          block.remove();
+          clearInterval(fallInterval);
+        }
+      }, 30);
+    }
+
+    // Generate a block every 1.5 seconds
+    setInterval(createBlock, 1500);
+
+    // TODO: Add collision detection
+    // TODO: Add Game Over state
+  </script>
+
+</body>
+</html>

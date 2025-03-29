@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dodge the Block Final Demo</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; background: #f0f0f0; }
+    .view { display: none; }
+    .active { display: block; }
+    #gameArea {
+      position: relative;
+      width: 400px;
+      height: 600px;
+      margin: 0 auto;
+      border: 3px solid #000;
+      background: #fff;
+      overflow: hidden;
+    }
+    #player {
+      width: 40px;
+      height: 40px;
+      background: red;
+      position: absolute;
+      bottom: 10px;
+      left: 180px;
+    }
+    .block {
+      width: 40px;
+      height: 40px;
+      background: black;
+      position: absolute;
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Home View -->
+  <div id="homeView" class="view active">
+    <h1>🏠 Welcome to Dodge Game</h1>
+    <button onclick="startGame()">Start Game</button>
+  </div>
+
+  <!-- Game View -->
+  <div id="gameView" class="view">
+    <h2 id="scoreDisplay">Score: 0</h2>
+    <div id="gameArea">
+      <div id="player"></div>
+    </div>
+  </div>
+
+  <!-- Game Over View -->
+  <div id="gameOverView" class="view">
+    <h1>💀 Game Over</h1>
+    <p id="finalScoreText"></p>
+    <input id="playerName" placeholder="Your name" />
+    <button onclick="saveScore()">Save Score</button>
+
+    <h3>🏆 Leaderboard</h3>
+    <ul id="leaderboardList"></ul>
+    <button onclick="goHome()">Go Home</button>
+  </div>
+
+  <script>
+    // View control
+    function showView(id) {
+      ["homeView", "gameView", "gameOverView"].forEach(v => {
+        document.getElementById(v).classList.remove("active");
+      });
+      document.getElementById(id).classList.add("active");
+    }
+
+    const gameArea = document.getElementById("gameArea");
+    const player = document.getElementById("player");
+    const scoreDisplay = document.getElementById("scoreDisplay");
+    const finalScoreText = document.getElementById("finalScoreText");
+    const leaderboardList = document.getElementById("leaderboardList");
+
+    let playerX = 180;
+    let score = 0;
+    let scoreTimer;
+    let blockTimer;
+    let gameRunning = false;
+
+    function startGame() {
+      showView("gameView");
+      playerX = 180;
+      player.style.left = playerX + "px";
+      score = 0;
+      scoreDisplay.textContent = "Score: 0";
+      gameRunning = true;
+
+      document.addEventListener("keydown", movePlayer);
+      scoreTimer = setInterval(() => {
+        score++;
+        scoreDisplay.textContent = "Score: " + score;
+      }, 1000);
+
+      blockTimer = setInterval(spawnBlock, 1200);
+    }
+
+    function movePlayer(e) {
+      if (!gameRunning) return;
+      if (e.key === "ArrowLeft" || e.key === "a") playerX -= 20;
+      if (e.key === "ArrowRight" || e.key === "d") playerX += 20;
+      playerX = Math.max(0, Math.min(360, playerX));
+      player.style.left = playerX + "px";
+    }
+
+    function spawnBlock() {
+      const block = document.createElement("div");
+      block.classList.add("block");
+      block.style.left = Math.floor(Math.random() * 10) * 40 + "px";
+      gameArea.appendChild(block);
+      let top = 0;
+      const fall = setInterval(() => {
+        top += 5;
+        block.style.top = top + "px";
+        if (top > 600) {
+          block.remove();
+          clearInterval(fall);
+        }
+        if (checkCollision(player, block)) {
+          endGame();
+          clearInterval(fall);
+        }
+      }, 30);
+    }
+
+    function checkCollision(a, b) {
+      const r1 = a.getBoundingClientRect();
+      const r2 = b.getBoundingClientRect();
+      return !(r1.right < r2.left || r1.left > r2.right || r1.bottom < r2.top || r1.top > r2.bottom);
+    }
+
+    function endGame() {
+      gameRunning = false;
+      clearInterval(scoreTimer);
+      clearInterval(blockTimer);
+      document.removeEventListener("keydown", movePlayer);
+      finalScoreText.textContent = `Your score: ${score}`;
+      showView("gameOverView");
+    }
+
+    function saveScore() {
+      const name = document.getElementById("playerName").value.trim();
+      if (!name) return alert("Please enter a name!");
+      let board = JSON.parse(localStorage.getItem("leaderboard") || "[]");
+      board.push({ name, score });
+      board.sort((a, b) => b.score - a.score);
+      board = board.slice(0, 5);
+      localStorage.setItem("leaderboard", JSON.stringify(board));
+      showLeaderboard();
+    }
+
+    function showLeaderboard() {
+      const board = JSON.parse(localStorage.getItem("leaderboard") || "[]");
+      leaderboardList.innerHTML = "";
+      board.forEach(entry => {
+        const li = document.createElement("li");
+        li.textContent = `${entry.name}: ${entry.score}`;
+        leaderboardList.appendChild(li);
+      });
+    }
+
+    function goHome() {
+      showView("homeView");
+    }
+  </script>
+</body>
+</html>
