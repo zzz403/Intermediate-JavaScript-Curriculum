@@ -3,6 +3,17 @@ let selectedCell = null;
 let selectedDateStr = "";
 
 function generateCalendar(year, month) {
+  const savedData = localStorage.getItem("moodData");
+  if (savedData) {
+    try {
+      moodData = JSON.parse(savedData);
+      console.log("Loaded mood data from localStorage");
+    } catch (error) {
+      console.error("Error loading mood data:", error);
+      moodData = {};
+    }
+  }
+
   const calendarDiv = document.createElement('div');
   calendarDiv.className = 'calendar';
   const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -32,13 +43,19 @@ function generateCalendar(year, month) {
       if (i === 0 && j < startingDay || date > daysInMonth) {
         cell.textContent = "";
       } else {
-        cell.textContent = date;
         const currentDate = new Date(year, month, date);
         const yyyy = currentDate.getFullYear();
         const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
         const dd = String(currentDate.getDate()).padStart(2, '0');
         const dateStr = yyyy + '-' + mm + '-' + dd;
         cell.dataset.date = dateStr;
+
+        try {
+          cell.textContent = moodData[dateStr].mood;
+        } catch {
+          cell.textContent = date;
+        }
+        
         cell.addEventListener('click', function() {
           if (selectedCell) {
             selectedCell.classList.remove('selected');
@@ -84,7 +101,9 @@ document.getElementById('cacheSaveBtn').addEventListener('click', function() {
   const mood = document.getElementById('mood').value;
   const note = document.getElementById('note').value;
   moodData[selectedDateStr] = { mood, note };
+  localStorage.setItem("moodData", JSON.stringify(moodData));
   alert("Saved successfully!");
+  renderCalendars()
 });
 
 document.getElementById('exportJsonBtn').addEventListener('click', function() {
@@ -114,5 +133,6 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
   };
   reader.readAsText(file);
 });
+
 
 renderCalendars();
